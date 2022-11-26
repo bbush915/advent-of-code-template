@@ -1,6 +1,16 @@
-const { MinPriorityQueue } = require("./priority-queue");
+import { MinPriorityQueue } from "./data-structure";
 
-function dijkstra({ getNeighbors, getDistance }, source, target) {
+export type Graph = {
+  vertices: Record<string, Record<string, number>>;
+  getNeighbors: (key: string) => string[];
+  getDistance: (x: string, y: string) => number;
+};
+
+export function dijkstra(
+  { getNeighbors, getDistance }: Graph,
+  source: string,
+  target: string
+) {
   const distanceLookup = new Map();
   distanceLookup.set(source, 0);
 
@@ -11,7 +21,7 @@ function dijkstra({ getNeighbors, getDistance }, source, target) {
   priorityQueue.insert(source, distanceLookup.get(source));
 
   while (priorityQueue.size > 0) {
-    const { key } = priorityQueue.pop();
+    const { key } = priorityQueue.pop()!;
 
     if (key === target) {
       break;
@@ -37,7 +47,3 @@ function dijkstra({ getNeighbors, getDistance }, source, target) {
 
   return { distanceLookup, predecessorLookup };
 }
-
-module.exports = {
-  dijkstra,
-};

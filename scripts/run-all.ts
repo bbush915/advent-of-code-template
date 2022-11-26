@@ -1,14 +1,14 @@
-const fs = require("fs");
+import fs from "fs";
 
 const days = fs
   .readdirSync("./src")
-  .filter((x) => x.match(/^day.\d+.js$/g))
+  .filter((x) => x.match(/^day.\d+.ts$/g))
   .map((x) => Number(x.split(".")[1]))
   .sort((x, y) => x - y);
 
 const start = new Date().getTime();
 
-for (day of days) {
+for (const day of days) {
   const { part1, part2 } = require(`../src/day.${day}`);
 
   console.info(`----- Day ${day} -----`);
@@ -24,7 +24,7 @@ for (day of days) {
 
 console.info(`Total: ${new Date().getTime() - start} ms`);
 
-function timePart(getResult) {
+function timePart(getResult: () => number | string) {
   const start = new Date().getTime();
 
   const result = getResult();

@@ -1,15 +1,4 @@
 /**
- * Determines whether the given value is numeric.
- *
- * @param {*} value The value.
- * @return {boolean} A value indicating whether the value is numeric.
- */
-function isNumeric(value) {
-  value = "" + value;
-  return !isNaN(value) && !isNaN(parseFloat(value));
-}
-
-/**
  * Calulates the (least positive) solution of the system of congruences using
  * the Chinese Remainder Theorem.
  *
@@ -24,24 +13,22 @@ function isNumeric(value) {
  * @param {number[]} a The integers.
  * @param {numbe[]} m The moduli.
  */
-function crt(a, m) {
+export function crt(a: number[], m: number[]) {
   const M = m.reduce((product, val) => ((product *= val), product), 1);
 
   let x = 0;
 
   for (let i = 0; i < m.length; i++) {
-    x += lpr(a[i] * (M / m[i]) * inv(M / m[i], m[i]), M);
+    x += lpr(a[i] * (M / m[i]) * inv(M / m[i], m[i])!, M);
   }
 
   return lpr(x, M);
 }
 
-/**
- * @typedef ExtendedGCD
- * @type {object}
- * @property {number} gcd The greatest common divisor.
- * @property {string} bezout The Bézout coefficients.
- */
+type ExtendedGCD = {
+  gcd: number;
+  bezout: number[];
+};
 
 /**
  * Calculates the greatest common divisor of two nonnegative integers, as well
@@ -51,7 +38,7 @@ function crt(a, m) {
  * @param {number} b The second nonnegative integer.
  * @return {ExtendedGCD} The greatest common divisor and associated Bézout coefficients.
  */
-function egcd(a, b) {
+export function egcd(a: number, b: number): ExtendedGCD {
   let did_swap = false;
 
   if (a < b) {
@@ -86,7 +73,7 @@ function egcd(a, b) {
  * @param {number} b The second nonnegative integer.
  * @return {number} The greatest common divisor.
  */
-function gcd(a, b) {
+export function gcd(a: number, b: number): number {
   if (a < b) {
     [a, b] = [b, a];
   }
@@ -108,7 +95,7 @@ function gcd(a, b) {
  * @param {number} m The modulus.
  * @return {number | null} The modular multiplicative inverse, if it exists.
  */
-function inv(a, m) {
+export function inv(a: number, m: number): number | null {
   const { gcd, bezout } = egcd(a, m);
 
   if (gcd !== 1) {
@@ -125,7 +112,7 @@ function inv(a, m) {
  * @param {number} m The modulus.
  * @return {number} The least positive residue.
  */
-function lpr(a, m) {
+export function lpr(a: number, m: number): number {
   if (a < 0) {
     return m - (-a % m);
   }
@@ -139,7 +126,7 @@ function lpr(a, m) {
  * @param {number} n The integer.
  * @return {number} The value of Euler's totient function.
  */
-function phi(n) {
+export function phi(n: number): number {
   let result = 1;
 
   for (let i = 2; i < n; i++) {
@@ -150,13 +137,3 @@ function phi(n) {
 
   return result;
 }
-
-module.exports = {
-  crt,
-  egcd,
-  gcd,
-  inv,
-  isNumeric,
-  lpr,
-  phi,
-};

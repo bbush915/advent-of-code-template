@@ -1,9 +1,9 @@
-const parseArguments = require("command-line-args");
-const dotenv = require("dotenv");
+import commandLineArgs from "command-line-args";
+import dotenv from "dotenv";
 
 dotenv.config();
 
-const options = parseArguments([
+const options = commandLineArgs([
   { name: "day", type: Number, defaultValue: Number(process.env.DAY) },
   { name: "part", alias: "p", type: Number },
 ]);
@@ -12,7 +12,7 @@ const { day, part } = options;
 
 if (part && ![1, 2].includes(part)) {
   console.error("Invalid Part specified. If present, must be 1 or 2.");
-  return;
+  process.exit(1);
 }
 
 const { part1, part2 } = require(`../src/day.${day}`);
@@ -29,7 +29,7 @@ if (part !== 1) {
   console.info(`Part 2: ${p2Answer} [${p2TimeElapsed} ms]`);
 }
 
-function timePart(getResult) {
+function timePart(getResult: () => number | string) {
   const start = new Date().getTime();
 
   const result = getResult();

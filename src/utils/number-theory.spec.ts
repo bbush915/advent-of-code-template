@@ -1,4 +1,4 @@
-const { crt, egcd, gcd, inv, lpr, phi } = require("./number-theory");
+import { crt, egcd, gcd, inv, lpr, phi } from "./number-theory";
 
 describe("utils", function () {
   describe("number-theory", function () {

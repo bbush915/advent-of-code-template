@@ -1,11 +1,11 @@
-const axios = require("axios").default;
-const parseArguments = require("command-line-args");
-const dotenv = require("dotenv");
-const fs = require("fs");
+import axios from "axios";
+import commandLineArgs from "command-line-args";
+import dotenv from "dotenv";
+import fs from "fs";
 
 dotenv.config();
 
-const options = parseArguments([
+const options = commandLineArgs([
   { name: "year", type: Number, defaultValue: Number(process.env.YEAR) },
   { name: "day", type: Number, defaultValue: Number(process.env.DAY) },
   { name: "delay", type: Number, defaultValue: 0 },
