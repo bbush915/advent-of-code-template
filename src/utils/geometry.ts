@@ -3,14 +3,13 @@ export type Point = {
   y: number;
 };
 
-export type Segment = {
-  p1: Point;
-  p2: Point;
-};
+export type Segment = [Point, Point];
 
-export function intersect(
-  { p1: { x: x1, y: y1 }, p2: { x: x2, y: y2 } }: Segment,
-  { p1: { x: x3, y: y3 }, p2: { x: x4, y: y4 } }: Segment
+export type Interval = [number, number];
+
+export function getIntersection(
+  [{ x: x1, y: y1 }, { x: x2, y: y2 }]: Segment,
+  [{ x: x3, y: y3 }, { x: x4, y: y4 }]: Segment
 ): Point | null {
   const D = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
 
