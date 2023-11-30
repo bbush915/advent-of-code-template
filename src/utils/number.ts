@@ -1,4 +1,19 @@
 /**
+ * Determines whether the given value is numeric.
+ *
+ * @param {*} value The value.
+ * @return {boolean} A value indicating whether the value is numeric.
+ */
+export function isNumeric(value: any): boolean {
+  if (Array.isArray(value)) {
+    return false;
+  }
+
+  value = "" + value;
+  return !isNaN(value) && !isNaN(parseFloat(value));
+}
+
+/**
  * Calulates the (least positive) solution of the system of congruences using
  * the Chinese Remainder Theorem.
  *

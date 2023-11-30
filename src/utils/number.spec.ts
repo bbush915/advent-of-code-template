@@ -1,7 +1,25 @@
-import { crt, egcd, gcd, inv, lpr, phi } from "./number-theory";
+import { crt, egcd, gcd, inv, isNumeric, lpr, phi } from "./number";
 
 describe("utils", function () {
-  describe("number-theory", function () {
+  describe("number", function () {
+    describe("isNumeric", function () {
+      it("should handle a string", function () {
+        expect(isNumeric("hello")).toBeFalsy();
+      });
+
+      it("should handle a number", function () {
+        expect(isNumeric(3)).toBeTruthy();
+      });
+
+      it("should handle an array of size 1", function () {
+        expect(isNumeric([3])).toBeFalsy();
+      });
+
+      it("should handle an array of size 2", function () {
+        expect(isNumeric([3, 4])).toBeFalsy();
+      });
+    });
+
     describe("crt", function () {
       it("correctly solves the system of congruences", function () {
         const result = crt([2, 3, 2], [3, 5, 7]);
