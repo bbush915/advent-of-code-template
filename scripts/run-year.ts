@@ -1,20 +1,29 @@
+import commandLineArgs from "command-line-args";
+import dotenv from "dotenv";
 import fs from "fs";
 
-const days = fs
-  .readdirSync("./src", { encoding: "utf8", recursive: true })
-  .filter((x) => x.match(/^\d+\/day.\d+.ts$/g))
-  .map((x) => ({ year: Number(x.split("/")[0]), day: Number(x.split(".")[1]) }))
-  .sort((x, y) => {
-    if (x.year === y.year) {
-      return x.day - y.day;
-    }
+dotenv.config();
 
-    return x.year - y.year;
-  });
+const options = commandLineArgs([
+  {
+    name: "year",
+    alias: "y",
+    type: Number,
+    defaultValue: Number(process.env.YEAR),
+  },
+]);
+
+const { year } = options;
+
+const days = fs
+  .readdirSync(`./src/${year}`, { encoding: "utf8" })
+  .filter((x) => x.match(/^day.\d+.ts$/g))
+  .map((x) => Number(x.split(".")[1]))
+  .sort((x, y) => x - y);
 
 let totalElapsed = 0;
 
-for (const { year, day } of days) {
+for (const day of days) {
   const { part1, part2 } = require(`../src/${year}/day.${day}`);
 
   console.info(`----- ${year} Day ${day} -----`);

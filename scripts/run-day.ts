@@ -4,20 +4,31 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const options = commandLineArgs([
-  { name: "day", type: Number, defaultValue: Number(process.env.DAY) },
+  {
+    name: "year",
+    alias: "y",
+    type: Number,
+    defaultValue: Number(process.env.YEAR),
+  },
+  {
+    name: "day",
+    alias: "d",
+    type: Number,
+    defaultValue: Number(process.env.DAY),
+  },
   { name: "part", alias: "p", type: Number },
 ]);
 
-const { day, part } = options;
+const { year, day, part } = options;
 
 if (part && ![1, 2].includes(part)) {
   console.error("Invalid Part specified. If present, must be 1 or 2.");
   process.exit(1);
 }
 
-const { part1, part2 } = require(`../src/day.${day}`);
+const { part1, part2 } = require(`../src/${year}/day.${day}`);
 
-console.info(`----- Day ${day} -----`);
+console.info(`----- ${year} Day ${day} -----`);
 
 if (part !== 2) {
   const { result: p1Answer, timeElapsed: p1TimeElapsed } = timePart(part1);

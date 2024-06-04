@@ -2,7 +2,7 @@ import fs from "fs";
 
 function parseInput() {
   return fs
-    .readFileSync("src/day.$$DAY$$.input.txt")
+    .readFileSync("src/$$YEAR$$/day.$$DAY$$.input.txt")
     .toString()
     .split("\n")
     .filter((x) => x)

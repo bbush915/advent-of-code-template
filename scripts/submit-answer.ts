@@ -7,8 +7,18 @@ import url from "url";
 dotenv.config();
 
 const options = commandLineArgs([
-  { name: "year", type: Number, defaultValue: Number(process.env.YEAR) },
-  { name: "day", type: Number, defaultValue: Number(process.env.DAY) },
+  {
+    name: "year",
+    alias: "y",
+    type: Number,
+    defaultValue: Number(process.env.YEAR),
+  },
+  {
+    name: "day",
+    alias: "d",
+    type: Number,
+    defaultValue: Number(process.env.DAY),
+  },
   { name: "part", alias: "p", type: Number, defaultValue: 1 },
 ]);
 
@@ -21,12 +31,12 @@ if (part && ![1, 2].includes(part)) {
 
 console.info(`Submitting answer for ${year} Day ${day} Part ${part}...`);
 
-const { part1, part2 } = require(`../src/day.${day}`);
+const { part1, part2 } = require(`../src/${year}/day.${day}`);
 
 const getResult = part === 1 ? part1 : part2;
 const result = getResult();
 
-const answersPath = `./src/day.${day}.answers.json`;
+const answersPath = `./src/${year}/day.${day}.answers.json`;
 
 if (!fs.existsSync(answersPath)) {
   fs.writeFileSync(answersPath, JSON.stringify({ history: [] }));

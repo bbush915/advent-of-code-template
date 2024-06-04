@@ -5,26 +5,39 @@ import fs from "fs";
 dotenv.config();
 
 const options = commandLineArgs([
-  { name: "day", type: Number, defaultValue: Number(process.env.DAY) },
+  {
+    name: "year",
+    alias: "y",
+    type: Number,
+    defaultValue: Number(process.env.YEAR),
+  },
+  {
+    name: "day",
+    alias: "d",
+    type: Number,
+    defaultValue: Number(process.env.DAY),
+  },
 ]);
 
-const { day } = options;
+const { year, day } = options;
 
-console.info(`Generating Day ${day} files from template...`);
+console.info(`Generating ${year} Day ${day} files from template...`);
 
 const codeTemplate = fs
   .readFileSync("./src/templates/day.template.txt")
   .toString()
-  .replace(/\$\$DAY\$\$/g, day);
+  .replace(/\$\$DAY\$\$/g, day)
+  .replace(/\$\$YEAR\$\$/g, year);
 
 const specTemplate = fs
   .readFileSync("./src/templates/day.spec.template.txt")
   .toString()
-  .replace(/\$\$DAY\$\$/g, day);
+  .replace(/\$\$DAY\$\$/g, day)
+  .replace(/\$\$YEAR\$\$/g, year);
 
 try {
-  fs.writeFileSync(`./src/day.${day}.ts`, codeTemplate);
-  fs.writeFileSync(`./src/day.${day}.spec.ts`, specTemplate);
+  fs.writeFileSync(`./src/${year}/day.${day}.ts`, codeTemplate);
+  fs.writeFileSync(`./src/${year}/day.${day}.spec.ts`, specTemplate);
 
   console.info("Created files successfully!");
 } catch (error: any) {

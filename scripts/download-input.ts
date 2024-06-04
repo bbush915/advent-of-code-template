@@ -6,8 +6,18 @@ import fs from "fs";
 dotenv.config();
 
 const options = commandLineArgs([
-  { name: "year", type: Number, defaultValue: Number(process.env.YEAR) },
-  { name: "day", type: Number, defaultValue: Number(process.env.DAY) },
+  {
+    name: "year",
+    alias: "y",
+    type: Number,
+    defaultValue: Number(process.env.YEAR),
+  },
+  {
+    name: "day",
+    alias: "d",
+    type: Number,
+    defaultValue: Number(process.env.DAY),
+  },
   { name: "delay", type: Number, defaultValue: 0 },
 ]);
 
@@ -23,7 +33,7 @@ setTimeout(() => {
       },
     })
     .then((response) =>
-      fs.writeFile(`./src/day.${day}.input.txt`, response.data, () => {
+      fs.writeFile(`./src/${year}/day.${day}.input.txt`, response.data, () => {
         console.info("Downloaded input file successfully!");
       })
     )
