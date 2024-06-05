@@ -19,14 +19,15 @@ const options = commandLineArgs([
   { name: "part", alias: "p", type: Number },
 ]);
 
-const { year, day, part } = options;
+const { year, day: day_, part } = options;
+const day = day_.toString().padStart(2, "0");
 
 if (part && ![1, 2].includes(part)) {
   console.error("Invalid Part specified. If present, must be 1 or 2.");
   process.exit(1);
 }
 
-const { part1, part2 } = require(`../src/${year}/day.${day}`);
+const { part1, part2 } = require(`../src/${year}/${day}/day.${day}`);
 
 console.info(`----- ${year} Day ${day} -----`);
 

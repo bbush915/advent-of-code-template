@@ -21,22 +21,28 @@ const options = commandLineArgs([
   { name: "delay", type: Number, defaultValue: 0 },
 ]);
 
-const { year, day, delay } = options;
+const { year, day: day_, delay } = options;
+const day = day_.toString().padStart(2, "0");
 
 console.info(`Fetching ${year} Day ${day} input file in ${delay} seconds...`);
 
 setTimeout(() => {
   axios
-    .get(`https://adventofcode.com/${year}/day/${day}/input`, {
+    .get(`https://adventofcode.com/${year}/day/${day_}/input`, {
       headers: {
         cookie: `session=${process.env.SESSION}`,
       },
     })
-    .then((response) =>
-      fs.writeFile(`./src/${year}/day.${day}.input.txt`, response.data, () => {
-        console.info("Downloaded input file successfully!");
-      })
-    )
+    .then((response) => {
+      fs.mkdirSync(`./src/inputs/${year}/${day}`, { recursive: true });
+
+      fs.writeFileSync(
+        `./src/inputs/${year}/${day}/day.${day}.input.txt`,
+        response.data
+      );
+
+      console.info("Downloaded input file successfully!");
+    })
     .catch((error) => {
       console.error("Failed to download input file: ", error.message);
     });

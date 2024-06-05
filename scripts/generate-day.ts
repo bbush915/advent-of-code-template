@@ -19,7 +19,8 @@ const options = commandLineArgs([
   },
 ]);
 
-const { year, day } = options;
+const { year, day: day_ } = options;
+const day = day_.toString().padStart(2, "0");
 
 console.info(`Generating ${year} Day ${day} files from template...`);
 
@@ -36,8 +37,10 @@ const specTemplate = fs
   .replace(/\$\$YEAR\$\$/g, year);
 
 try {
-  fs.writeFileSync(`./src/${year}/day.${day}.ts`, codeTemplate);
-  fs.writeFileSync(`./src/${year}/day.${day}.spec.ts`, specTemplate);
+  fs.mkdirSync(`./src/${year}/${day}`);
+
+  fs.writeFileSync(`./src/${year}/${day}/day.${day}.ts`, codeTemplate);
+  fs.writeFileSync(`./src/${year}/${day}/day.${day}.spec.ts`, specTemplate);
 
   console.info("Created files successfully!");
 } catch (error: any) {

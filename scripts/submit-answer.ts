@@ -22,7 +22,8 @@ const options = commandLineArgs([
   { name: "part", alias: "p", type: Number, defaultValue: 1 },
 ]);
 
-const { year, day, part } = options;
+const { year, day: day_, part } = options;
+const day = day_.toString().padStart(2, "0");
 
 if (part && ![1, 2].includes(part)) {
   console.error("Invalid Part specified. If present, must be 1 or 2.");
@@ -31,12 +32,12 @@ if (part && ![1, 2].includes(part)) {
 
 console.info(`Submitting answer for ${year} Day ${day} Part ${part}...`);
 
-const { part1, part2 } = require(`../src/${year}/day.${day}`);
+const { part1, part2 } = require(`../src/${year}/${day}/day.${day}`);
 
 const getResult = part === 1 ? part1 : part2;
 const result = getResult();
 
-const answersPath = `./src/${year}/day.${day}.answers.json`;
+const answersPath = `./src/${year}/${day}/day.${day}.answers.json`;
 
 if (!fs.existsSync(answersPath)) {
   fs.writeFileSync(answersPath, JSON.stringify({ history: [] }));
@@ -62,7 +63,7 @@ const params = new url.URLSearchParams({ level: part, answer: result });
 
 axios
   .post(
-    `https://adventofcode.com/${year}/day/${day}/answer`,
+    `https://adventofcode.com/${year}/day/${day_}/answer`,
     params.toString(),
     {
       headers: {

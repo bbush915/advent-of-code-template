@@ -2,20 +2,20 @@ import fs from "fs";
 
 const days = fs
   .readdirSync("./src", { encoding: "utf8", recursive: true })
-  .filter((x) => x.match(/^\d+\/day.\d+.ts$/g))
-  .map((x) => ({ year: Number(x.split("/")[0]), day: Number(x.split(".")[1]) }))
+  .filter((x) => x.match(/^\d{4}\/\d{2}\/day\.\d+\.ts$/g))
+  .map((x) => ({ year: x.split("/")[0], day: x.split("/")[1] }))
   .sort((x, y) => {
     if (x.year === y.year) {
-      return x.day - y.day;
+      return x.day.localeCompare(y.day);
     }
 
-    return x.year - y.year;
+    return x.year.localeCompare(y.year);
   });
 
 let totalElapsed = 0;
 
 for (const { year, day } of days) {
-  const { part1, part2 } = require(`../src/${year}/day.${day}`);
+  const { part1, part2 } = require(`../src/${year}/${day}/day.${day}`);
 
   console.info(`----- ${year} Day ${day} -----`);
 

@@ -16,15 +16,15 @@ const options = commandLineArgs([
 const { year } = options;
 
 const days = fs
-  .readdirSync(`./src/${year}`, { encoding: "utf8" })
-  .filter((x) => x.match(/^day.\d+.ts$/g))
-  .map((x) => Number(x.split(".")[1]))
-  .sort((x, y) => x - y);
+  .readdirSync(`./src/${year}`, { encoding: "utf8", recursive: true })
+  .filter((x) => x.match(/^\d{2}\/day\.\d+\.ts$/g))
+  .map((x) => x.split("/")[0])
+  .sort((x, y) => x.localeCompare(y));
 
 let totalElapsed = 0;
 
 for (const day of days) {
-  const { part1, part2 } = require(`../src/${year}/day.${day}`);
+  const { part1, part2 } = require(`../src/${year}/${day}/day.${day}`);
 
   console.info(`----- ${year} Day ${day} -----`);
 
